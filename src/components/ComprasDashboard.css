@@ -1,0 +1,74 @@
+.compras-container {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f6f8fa;
+  min-height: 100vh;
+  padding: 30px 60px;
+  color: #333;
+}
+
+.compras-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.compras-header h1 {
+  font-size: 2rem;
+  color: #0a58ca;
+  margin-bottom: 6px;
+}
+.compras-header p {
+  color: #6b7280;
+}
+
+/* Filtros */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: #fff;
+  padding: 16px 20px;
+  margin: 0 auto 24px;
+  max-width: 900px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+.filter label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
+.filter select {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: .95rem;
+}
+.filter select:focus { outline: none; border-color: #0a58ca; }
+
+/* Tabela */
+.table-container {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; }
+thead { background: #0a58ca; color: #fff; }
+th, td { padding: 12px 16px; border-bottom: 1px solid #eef2f7; }
+tr:hover { background: #f4f7ff; }
+td:nth-last-child(-n+6), th:nth-last-child(-n+6) { text-align: right; }
+
+.loading { text-align: center; padding: 50px; color: #555; }
+
+/* Gráficos */
+.compras-charts { margin-top: 28px; }
+.compras-charts-grid {
+  display: grid; gap: 24px; grid-template-columns: 1fr;
+}
+.chart-card {
+  background: #fff; padding: 18px; border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.chart-card h3 { margin: 0 0 12px; color: #0a58ca; font-weight: 600; }
+.chart-empty { text-align: center; color: #777; background: #fff; padding: 18px; border-radius: 10px; }

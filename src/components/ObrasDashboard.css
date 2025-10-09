@@ -1,0 +1,220 @@
+/* Layout geral */
+.dashboard-container {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f6f8fa;
+  min-height: 100vh;
+  padding: 30px 60px;
+  color: #333;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  color: #0057b8;
+  margin-bottom: 5px;
+}
+
+.dashboard-header p {
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Filtros */
+.filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.filter label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.filter select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  font-size: 0.95rem;
+  transition: border 0.2s;
+}
+
+.filter select:hover,
+.filter select:focus {
+  border-color: #0057b8;
+  outline: none;
+}
+
+/* Tabela */
+.table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #0057b8;
+  color: white;
+}
+
+th,
+td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background-color: #f2f6ff;
+}
+
+td:last-child,
+th:last-child {
+  text-align: right;
+}
+
+/* Cores condicionais */
+.negativo td:last-child {
+  color: #e63946;
+  font-weight: 600;
+}
+
+.positivo td:last-child {
+  color: #2a9d8f;
+  font-weight: 600;
+}
+
+/* Gráficos */
+.charts-container {
+  margin-top: 40px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 50px;
+  color: #555;
+}
+
+.num { text-align: right; white-space: nowrap; }
+thead th { white-space: nowrap; }
+td.negativo { color: #e63946; font-weight: 600; } /* real acima da meta */
+td.positivo { color: #2a9d8f; font-weight: 600; } /* real abaixo da meta */
+
+/* layout básico que você já tem… (mantenha) */
+
+/* ===== Toolbar de blocos ===== */
+.blocos-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+.chip {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0a58ca;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.chip:hover { background: #eef4ff; }
+.chip-on {
+  background: #0a58ca;
+  color: #fff;
+  border-color: #0a58ca;
+}
+
+/* ===== Tabela ===== */
+.table-container.wide-scroll {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+
+.obras-table { width: max-content; min-width: 100%; border-collapse: collapse; }
+.obras-table th, .obras-table td { padding: 12px 14px; border-bottom: 1px solid #eef2f7; white-space: nowrap; }
+.obras-table thead tr:first-child { background: #0a58ca; color: #fff; }
+.obras-table thead tr:nth-child(2) { background: #e6efff; color: #0a58ca; }
+.grp-title { text-align: center; font-weight: 600; }
+
+.num { text-align: right; }
+.positivo { color: #2a9d8f; font-weight: 600; }
+.negativo { color: #e63946; font-weight: 600; }
+
+/* colunas fixas (Obra/Mês) */
+.sticky-col {
+  position: sticky;
+  left: 0;
+  background: #fff;
+  z-index: 2;
+}
+.sticky-col.second {
+  left: 110px; /* largura aproximada da 1ª coluna */
+  z-index: 2;
+}
+
+/* cabeçalhos fixos sobre as colunas fixas */
+.obras-table thead .sticky-col {
+  background: #0a58ca; color: #fff; z-index: 3;
+}
+.obras-table thead .sticky-col.second {
+  background: #0a58ca;
+}
+
+.obras-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 1100px) {
+  .obras-charts-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chart-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+
+.chart-card h3 {
+  margin: 0 0 10px;
+  color: #0a58ca;
+  font-weight: 600;
+}
+
+.chip-active {
+  box-shadow: 0 0 0 2px #0a58ca inset;
+}
+
+
+

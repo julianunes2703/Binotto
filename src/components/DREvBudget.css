@@ -1,0 +1,100 @@
+.drexbudget-page {
+  background: #f9fafb;
+  min-height: 100vh;
+  color: #111827;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  padding: 20px 32px 40px;
+}
+
+.drexbudget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.drexbudget-header h1 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1d4ed8;
+  margin: 0;
+}
+.drexbudget-header .right {
+  display: flex; gap: 8px; align-items: center;
+}
+.drexbudget-header select {
+  background: #fff; border: 1px solid #d1d5db; border-radius: 6px;
+  padding: 6px 10px; color: #111827;
+}
+
+.drexbudget-cards {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin: 10px 0 18px;
+}
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  padding: 12px 14px;
+  text-align: center;
+}
+.card h4 { margin: 0 0 6px; font-size: 12.5px; color: #1d4ed8; font-weight: 600; }
+.card .val { font-size: 18px; font-weight: 800; color: #111827; }
+.card.warn .val { color: #6b7280; }
+
+.drexbudget-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.panel h3 {
+  margin: 4px 0 10px;
+  font-size: 16px;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.table-wrap { overflow-x: auto; }
+.drexbudget-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.drexbudget-table th,
+.drexbudget-table td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 8px;
+}
+.drexbudget-table thead th {
+  background: #f3f4f6;
+  color: #374151;
+  text-align: left;
+}
+.drexbudget-table .num { text-align: right; }
+.drexbudget-table .pos { color: #16a34a; }
+.drexbudget-table .neg { color: #dc2626; }
+
+.drexbudget-loading {
+  padding: 32px;
+  color: #6b7280;
+  text-align: center;
+  font-weight: 500;
+}
+
+@media (max-width: 1200px) {
+  .drexbudget-cards { grid-template-columns: repeat(3, 1fr); }
+  .drexbudget-grid  { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .drexbudget-cards { grid-template-columns: 1fr; }
+}
