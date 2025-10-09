@@ -86,7 +86,7 @@ export default function ObrasDashboard() {
             value={obraSelecionada}
             onChange={(e) => setObraSelecionada(e.target.value)}
           >
-            <option value="SMF">SMF</option>
+            <option value="SMF">Sefaz</option>
           </select>
         </div>
         <div className="filter">
@@ -128,50 +128,59 @@ export default function ObrasDashboard() {
       <div className="table-container wide-scroll">
         <table className="obras-table">
           <thead>
-            <tr>
-              <th className="sticky-col">Obra</th>
-              <th className="sticky-col second">Mês</th>
-              {blocosAtivos.map((b) => (
-                <th key={`${b.key}-grp`} colSpan={3} className="grp-title">
-                  {abreviarTitulo(b.title)}
-                </th>
-              ))}
-            </tr>
-            <tr>
-              <th className="sticky-col"></th>
-              <th className="sticky-col second"></th>
-              {blocosAtivos.map((b) => (
-                <React.Fragment key={`${b.key}-subs`}>
-                  <th>Meta</th>
-                  <th>Real</th>
-                  <th>Desvio</th>
-                </React.Fragment>
-              ))}
-            </tr>
-          </thead>
+  {/* Linha 1: grupos */}
+  <tr>
+    <th className="sticky-col">Mês</th>
+    {blocosAtivos.map((b) => (
+      <th key={`${b.key}-grp`} colSpan={3} className="grp-title">
+        {abreviarTitulo(b.title)}
+      </th>
+    ))}
+  </tr>
+
+  {/* Linha 2: subtítulos */}
+  <tr>
+    {/* APENAS UM placeholder sticky para alinhar com "Mês" */}
+    <th className="sticky-col"></th>
+
+    {blocosAtivos.map((b) => (
+      <React.Fragment key={`${b.key}-subs`}>
+        <th>Meta</th>
+        <th>Real</th>
+        <th>Desvio</th>
+      </React.Fragment>
+    ))}
+  </tr>
+</thead>
+
 
           <tbody>
-            {filtrados.map((row, i) => (
-              <tr key={i}>
-                <td className="sticky-col">{row.Obra}</td>
-                <td className="sticky-col second">{row.Mes}</td>
-                {blocosAtivos.map((b) => {
-                  const meta = row[`${b.key}__meta`];
-                  const real = row[`${b.key}__real`];
-                  const desvio = row[`${b.key}__desvio`];
-                  const cls =
-                    (desvio ?? 0) > 0 ? "negativo" : (desvio ?? 0) < 0 ? "positivo" : "";
-                  return (
-                    <React.Fragment key={`${i}-${b.key}`}>
-                      <td className="num">{fmtMoney(meta)}</td>
-                      <td className="num">{fmtMoney(real)}</td>
-                      <td className={`num ${cls}`}>{fmtPct(desvio)}</td>
-                    </React.Fragment>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
+  {filtrados.map((row, i) => (
+    <tr key={i}>
+      {/* só o mês fica sticky */}
+      <td className="sticky-col">{row.Mes}</td>
+
+      {blocosAtivos.map((b) => {
+        const meta = row[`${b.key}__meta`];
+        const real = row[`${b.key}__real`];
+        const desvio = row[`${b.key}__desvio`];
+
+        const cls =
+          (desvio ?? 0) > 0 ? "negativo" :
+          (desvio ?? 0) < 0 ? "positivo" : "";
+
+        return (
+          <React.Fragment key={`${i}-${b.key}`}>
+            <td className="num">{fmtMoney(meta)}</td>
+            <td className="num">{fmtMoney(real)}</td>
+            <td className={`num ${cls}`}>{fmtPct(desvio)}</td>
+          </React.Fragment>
+        );
+      })}
+    </tr>
+  ))}
+</tbody>
+
         </table>
       </div>
 

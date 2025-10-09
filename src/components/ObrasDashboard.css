@@ -1,4 +1,4 @@
-/* Layout geral */
+/* ===== Layout geral ===== */
 .dashboard-container {
   font-family: "Segoe UI", Arial, sans-serif;
   background-color: #f6f8fa;
@@ -7,214 +7,151 @@
   color: #333;
 }
 
-.dashboard-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
+.dashboard-header { text-align: center; margin-bottom: 30px; }
+.dashboard-header h1 { font-size: 2rem; color: #0057b8; margin-bottom: 5px; }
+.dashboard-header p { color: #555; font-size: 1rem; }
 
-.dashboard-header h1 {
-  font-size: 2rem;
-  color: #0057b8;
-  margin-bottom: 5px;
-}
-
-.dashboard-header p {
-  color: #555;
-  font-size: 1rem;
-}
-
-/* Filtros */
+/* ===== Filtros ===== */
 .filters {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  background: white;
-  padding: 15px 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 20px;
+  background:#fff; padding: 15px 20px; border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08); margin-bottom: 22px;
 }
-
-.filter label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #444;
-}
-
+.filter label { display:block; font-weight:600; margin-bottom:6px; color:#444; }
 .filter select {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #fafafa;
-  font-size: 0.95rem;
-  transition: border 0.2s;
+  padding:8px 12px; border-radius:8px; border:1px solid #cbd5e1;
+  background:#f9fafb; font-size:.95rem; transition:border .2s;
 }
+.filter select:focus { outline:none; border-color:#0057b8; }
 
-.filter select:hover,
-.filter select:focus {
-  border-color: #0057b8;
-  outline: none;
-}
-
-/* Tabela */
-.table-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead {
-  background-color: #0057b8;
-  color: white;
-}
-
-th,
-td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-tr:hover {
-  background-color: #f2f6ff;
-}
-
-td:last-child,
-th:last-child {
-  text-align: right;
-}
-
-/* Cores condicionais */
-.negativo td:last-child {
-  color: #e63946;
-  font-weight: 600;
-}
-
-.positivo td:last-child {
-  color: #2a9d8f;
-  font-weight: 600;
-}
-
-/* Gráficos */
-.charts-container {
-  margin-top: 40px;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-/* Loading */
-.loading {
-  text-align: center;
-  padding: 50px;
-  color: #555;
-}
-
-.num { text-align: right; white-space: nowrap; }
-thead th { white-space: nowrap; }
-td.negativo { color: #e63946; font-weight: 600; } /* real acima da meta */
-td.positivo { color: #2a9d8f; font-weight: 600; } /* real abaixo da meta */
-
-/* layout básico que você já tem… (mantenha) */
-
-/* ===== Toolbar de blocos ===== */
-.blocos-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0 14px;
-}
+/* ===== Chips (blocos) ===== */
+.blocos-toolbar { display:flex; flex-wrap:wrap; gap:8px; margin: 6px 0 14px; }
 .chip {
-  border: 1px solid #cbd5e1;
-  background: #fff;
-  color: #0a58ca;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: .9rem;
-  cursor: pointer;
+  border:1px solid #cbd5e1; background:#fff; color:#0a58ca;
+  padding:6px 10px; border-radius:999px; font-size:.9rem; cursor:pointer;
 }
-.chip:hover { background: #eef4ff; }
-.chip-on {
-  background: #0a58ca;
-  color: #fff;
-  border-color: #0a58ca;
-}
+.chip:hover { background:#eef4ff; }
+.chip-on  { background:#0a58ca; color:#fff; border-color:#0a58ca; }
+.chip-active { box-shadow:0 0 0 2px #0a58ca inset; }
 
 /* ===== Tabela ===== */
 .table-container.wide-scroll {
-  overflow-x: auto;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  overflow-x:auto; background:#fff; border-radius:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
 }
 
-.obras-table { width: max-content; min-width: 100%; border-collapse: collapse; }
-.obras-table th, .obras-table td { padding: 12px 14px; border-bottom: 1px solid #eef2f7; white-space: nowrap; }
-.obras-table thead tr:first-child { background: #0a58ca; color: #fff; }
-.obras-table thead tr:nth-child(2) { background: #e6efff; color: #0a58ca; }
-.grp-title { text-align: center; font-weight: 600; }
+.obras-table {
+  width:max-content; min-width:100%;
+  border-collapse:collapse;
+}
 
-.num { text-align: right; }
-.positivo { color: #2a9d8f; font-weight: 600; }
-.negativo { color: #e63946; font-weight: 600; }
+/* Cabeçalho 1 (grupos) */
+.obras-table thead tr:first-child {
+  background:#0a58ca; color:#fff;
+}
+.obras-table thead tr:first-child th {
+  padding:12px 14px; white-space:nowrap; font-weight:600; text-align:center;
+}
 
-/* colunas fixas (Obra/Mês) */
+/* Cabeçalho 2 (subtítulos) */
+.obras-table thead tr:nth-child(2) {
+  background:#eaf2ff; color:#0a58ca;
+}
+.obras-table thead tr:nth-child(2) th {
+  padding:10px 12px; white-space:nowrap; font-weight:600; text-align:center;
+}
+
+/* Corpo */
+.obras-table td {
+  padding:12px 14px; border-bottom:1px solid #eef2f7; background:#fff;
+}
+.obras-table tbody tr:nth-child(odd) td { background:#fafcff; }
+.obras-table tbody tr:hover td { background:#f4f7ff; }
+
+/* Apenas a primeira coluna (Mês) é sticky */
 .sticky-col {
   position: sticky;
   left: 0;
-  background: #fff;
   z-index: 2;
-}
-.sticky-col.second {
-  left: 110px; /* largura aproximada da 1ª coluna */
-  z-index: 2;
-}
-
-/* cabeçalhos fixos sobre as colunas fixas */
-.obras-table thead .sticky-col {
-  background: #0a58ca; color: #fff; z-index: 3;
-}
-.obras-table thead .sticky-col.second {
-  background: #0a58ca;
-}
-
-.obras-charts-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-}
-
-@media (min-width: 1100px) {
-  .obras-charts-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.chart-card {
-  background: #fff;
-  padding: 16px;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.05);
-}
-
-.chart-card h3 {
-  margin: 0 0 10px;
-  color: #0a58ca;
+  background: inherit; /* mantém zebra/hover */
   font-weight: 600;
+  min-width: 110px; /* ajuste se quiser mais estreito/largo */
 }
 
-.chip-active {
-  box-shadow: 0 0 0 2px #0a58ca inset;
+.obras-table thead .sticky-col {
+  background: #0a58ca !important;
+  color: #fff !important;
+  z-index: 3;
 }
 
 
+/* Texto numérico alinhado à direita */
+.num { text-align: right; white-space: nowrap; }
 
+/* Cores de desvio (aplicadas no TD do desvio) */
+td.negativo { color:#e63946; font-weight:600; } /* real acima da meta */
+td.positivo { color:#2a9d8f; font-weight:600; } /* real abaixo da meta */
+
+/* ===== Gráficos ===== */
+.obras-charts-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+@media (min-width: 1100px) { .obras-charts-grid { grid-template-columns:1fr 1fr; } }
+.chart-card {
+  background:#fff; padding:16px; border-radius:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+.chart-card h3 { margin:0 0 10px; color:#0a58ca; font-weight:600; }
+
+/* ===== Utilidades ===== */
+.grp-title { text-align:center; font-weight:600; }
+.loading { text-align:center; padding:50px; color:#555; }
+
+/* força o browser a respeitar as larguras */
+.obras-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* <- importante */
+}
+
+/* Coluna MÊS mais estreita */
+.obras-table th.sticky-col,
+.obras-table td.sticky-col {
+  width: 120px;          /* ajuste fino aqui (110–140) */
+  min-width: 120px;
+  max-width: 120px;
+  text-align: left;
+  padding-left: 16px;    /* opcional, para não colar na borda */
+}
+
+/* Colunas numéricas (Meta / Real / Desvio) mais enxutas */
+.obras-table th.num,
+.obras-table td.num {
+  width: 150px;          /* ajuste fino (130–160) */
+  min-width: 150px;
+  max-width: 150px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tira excesso de padding para aproximar as colunas */
+.obras-table th,
+.obras-table td {
+  padding: 10px 12px; /* era 12px 14px; deixa mais compacto */
+}
+
+/* Cabeçalho de grupo não exagerar no recuo */
+.grp-title {
+  text-align: center;
+  font-weight: 600;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+/* Garante que o sticky do cabeçalho use a mesma largura do corpo */
+.obras-table thead .sticky-col {
+  background: #0a58ca;
+  color: #fff;
+  z-index: 3;
+  width: 120px;  /* igual ao do corpo */
+  min-width: 120px;
+  max-width: 120px;
+}

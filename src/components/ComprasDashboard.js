@@ -1,3 +1,4 @@
+// src/components/ComprasDashboard.jsx
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import ComprasCharts from "./ComprasCharts";
@@ -8,7 +9,7 @@ const URL_COMPRAS =
 
 export default function ComprasDashboard() {
   const [data, setData] = useState([]);
-  const [obraSelecionada, setObraSelecionada] = useState("SMF");
+  const [obraSelecionada, setObraSelecionada] = useState("SEFAZ");
   const [mesSelecionado, setMesSelecionado] = useState("Todos");
   const [loading, setLoading] = useState(true);
 
@@ -18,43 +19,42 @@ export default function ComprasDashboard() {
       const text = await res.text();
       const parsed = Papa.parse(text, { header: false }).data;
 
-      // pega somente as linhas que tem meses
       const linhasValidas = parsed.filter((r) =>
-        /Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez/i.test(r?.[1] || "")
+        /^(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)$/i.test(r?.[1] || "")
       );
 
-      // helper pra converter "R$ 1.234,56" ou "33,3%" em número
       const num = (v) => {
         const t = String(v ?? "")
-          .replace(/[^\d,.-]/g, "") // remove R$, %, espaços
-          .replace(/\./g, "") // remove milhar
-          .replace(",", "."); // vírgula -> ponto
+          .replace(/[^\d,.-]/g, "")
+          .replace(/\./g, "")
+          .replace(",", ".");
         const n = parseFloat(t);
-        return isNaN(n) ? 0 : n;
+        return Number.isFinite(n) ? n : 0;
       };
 
-      // mapeamento de colunas conforme sua planilha
-      const dados = linhasValidas.map((row) => ({
-        Obra: "SMF",
-        Mes: row[1],
+      // ...dentro do useEffect onde você monta "dados":
+const dados = linhasValidas.map((row) => ({
+  Obra: "SEFAZ",
+  Mes: row[1],
 
-        // PRAZO SOL × PEDIDO (Meta / Real / %)
-        PrazoSolPedidoMeta: num(row[3]),
-        PrazoSolPedido: num(row[4]),
-        PrazoSolPedidoPerc: num(row[5]),
+  // PRAZO SOL × PEDIDO (Meta / Real / %)
+  PrazoSolPedidoMeta: num(row[3]),
+  PrazoSolPedidoReal: num(row[4]),
+  PrazoSolPedidoPerc: num(row[5]),
 
-        // PRAZO SOL × ENTREGA (Meta / Real / %)
-        PrazoSolEntregaMeta: num(row[6]),
-        PrazoSolEntrega: num(row[7]),
-        PrazoSolEntregaPerc: num(row[8]),
+  // PRAZO SOL × ENTREGA (Meta / Real / %)
+  PrazoSolEntregaMeta: num(row[6]),
+  PrazoSolEntregaReal: num(row[7]),
+  PrazoSolEntregaPerc: num(row[8]),
 
-        // Indicadores (com tolerância de 1 coluna)
-        Pontualidade: num(row[10] ?? row[11]),
-        NivelRuptura: num(row[13] ?? row[14]),
-        Negociacao: num(row[16] ?? row[17]),
-        Estoque: num(row[19] ?? row[20]),
-        Avaliacao: num(row[22] ?? row[23]),
-      }));
+  // Indicadores
+  Pontualidade: num(row[10] ?? row[11]),
+  NivelRuptura: num(row[13] ?? row[14]),
+  Negociacao: num(row[16] ?? row[17]),
+  Estoque: num(row[19] ?? row[20]),
+  Avaliacao: num(row[22] ?? row[23]),
+}));
+
 
       setData(dados);
       setLoading(false);
@@ -63,7 +63,7 @@ export default function ComprasDashboard() {
 
   if (loading) return <p className="loading">Carregando dados...</p>;
 
-  const obras = ["SMF"]; // ajuste se vierem outras obras
+  const obras = ["SEFAZ"];
   const meses = ["Todos", ...new Set(data.map((d) => d.Mes))];
 
   const filtrados = data.filter(
@@ -71,6 +71,10 @@ export default function ComprasDashboard() {
       (obraSelecionada === "Todas" || d.Obra === obraSelecionada) &&
       (mesSelecionado === "Todos" || d.Mes === mesSelecionado)
   );
+
+  const fmtInt = (v) =>
+    (Number(v) || 0).toLocaleString("pt-BR", { maximumFractionDigits: 0 });
+  const fmtPct = (v) => `${(Number(v) || 0).toFixed(1)}%`;
 
   return (
     <div className="compras-container">
@@ -110,45 +114,60 @@ export default function ComprasDashboard() {
         </div>
       </div>
 
-      {/* Tabela */}
+      {/* Tabela branca, igual ao padrão de obras */}
       <div className="table-container">
-        <table>
+        <table className="compras-table">
           <thead>
             <tr>
-              <th>Obra</th>
-              <th>Mês</th>
-              <th>Prazo Sol. × Pedido</th>
-              <th>% Pedido</th>
-              <th>Prazo Sol. × Entrega</th>
-              <th>% Entrega</th>
+              <th className="sticky-col second">Mês</th>
+              <th colSpan={3} className="grp-title">Prazo Sol. × Pedido</th>
+              <th colSpan={3} className="grp-title">Prazo Sol. × Entrega</th>
               <th>Pontualidade</th>
               <th>Nível de Ruptura</th>
               <th>% Negociação</th>
               <th>Estoque</th>
               <th>Avaliação</th>
             </tr>
+            <tr className="subheader">
+              <th className="sticky-col second"></th>
+              <th>Meta</th>
+              <th>Real</th>
+              <th>%</th>
+              <th>Meta</th>
+              <th>Real</th>
+              <th>%</th>
+              <th>%</th>
+              <th>%</th>
+              <th>%</th>
+              <th>%</th>
+              <th>%</th>
+            </tr>
           </thead>
           <tbody>
             {filtrados.map((d, i) => (
               <tr key={i}>
-                <td>{d.Obra}</td>
-                <td>{d.Mes}</td>
-                <td>{d.PrazoSolPedido}</td>
-                <td>{d.PrazoSolPedidoPerc}%</td>
-                <td>{d.PrazoSolEntrega}</td>
-                <td>{d.PrazoSolEntregaPerc}%</td>
-                <td>{d.Pontualidade}%</td>
-                <td>{d.NivelRuptura}%</td>
-                <td>{d.Negociacao}%</td>
-                <td>{d.Estoque}%</td>
-                <td>{d.Avaliacao}%</td>
+                <td className="sticky-col second">{d.Mes}</td>
+
+                <td className="num">{fmtInt(d.PrazoSolPedidoMeta)}</td>
+                <td className="num">{fmtInt(d.PrazoSolPedidoReal)}</td>
+                <td className="num">{fmtPct(d.PrazoSolPedidoPerc)}</td>
+
+                <td className="num">{fmtInt(d.PrazoSolEntregaMeta)}</td>
+                <td className="num">{fmtInt(d.PrazoSolEntregaReal)}</td>
+                <td className="num">{fmtPct(d.PrazoSolEntregaPerc)}</td>
+
+                <td className="num">{fmtPct(d.Pontualidade)}</td>
+                <td className="num">{fmtPct(d.NivelRuptura)}</td>
+                <td className="num">{fmtPct(d.Negociacao)}</td>
+                <td className="num">{fmtPct(d.Estoque)}</td>
+                <td className="num">{fmtPct(d.Avaliacao)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* Gráficos */}
+      {/* Gráficos de Meta × Real */}
       <div className="compras-charts">
         <ComprasCharts data={filtrados} />
       </div>
