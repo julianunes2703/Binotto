@@ -43,7 +43,8 @@ export default function DashboardLayout() {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <h2>Consulting Blue</h2>
+          <h2>Binotto</h2>
+          <h3 className="blue">By Consulting Blue</h3>
         </div>
 
         <nav>
