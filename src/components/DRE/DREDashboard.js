@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { useDREData } from "../hooks/useDREData";
+import { useDREData } from "../../hooks/useDREData";
 import {
   ResponsiveContainer,
   LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend,

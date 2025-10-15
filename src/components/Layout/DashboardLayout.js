@@ -1,12 +1,12 @@
 // src/components/DashboardLayout.jsx
 import React, { useState } from "react";
-import ObrasDashboard from "./ObrasDashboard";
-import ComprasDashboard from "./ComprasDashboard";
-import DREDashboard from "./DREDashboard";
-import BudgetDashboard from "./BudgetDashboard";
+import ObrasDashboard from "../Obra/ObrasDashboard"
+import ComprasDashboard from "../Compras/ComprasDashboard"
+import DREDashboard from "../DRE/DREDashboard";
+import BudgetDashboard from "../Budget/BudgetDashboard";
 
 import "./DashboardLayout.css";
-import DREvsBudgetDashboard from "./DREvBudgetDashboard";
+import DREvsBudgetDashboard from "../DRExBudget/DREvBudgetDashboard";
 
 export default function DashboardLayout() {
   const [selectedMenu, setSelectedMenu] = useState("obras");

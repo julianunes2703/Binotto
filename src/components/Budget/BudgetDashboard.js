@@ -1,5 +1,5 @@
 import React from "react";
-import { useBudgetData } from "../hooks/useBudgetData";
+import { useBudgetData } from "../../hooks/useBudgetData";
 import {
   ResponsiveContainer,
   LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend,

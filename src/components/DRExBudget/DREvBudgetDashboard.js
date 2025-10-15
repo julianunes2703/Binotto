@@ -1,6 +1,6 @@
 import React from "react";
-import { useBudgetData } from "../hooks/useBudgetData";
-import { useDREData } from "../hooks/useDREData"; // seu hook do DRE
+import { useBudgetData } from "../../hooks/useBudgetData";
+import { useDREData } from "../../hooks/useDREData"; // seu hook do DRE
 import {
   ResponsiveContainer,
   LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend,
