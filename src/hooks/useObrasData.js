@@ -19,9 +19,11 @@ const parseMonth = (s) => {
 const toNumber = (v) => {
   if (v == null) return 0;
   if (typeof v === "number") return Number.isFinite(v) ? v : 0;
+
   let s = String(v).trim();
   if (!s) return 0;
 
+  // sinal/() negativos e limpa moeda/espacos
   const neg = /^-/.test(s) || /\(.*\)/.test(s);
   s = s.replace(/[^\d.,()-]/g, "").replace(/[()]/g, "");
   if (!s) return 0;
@@ -29,7 +31,14 @@ const toNumber = (v) => {
   const hasComma = s.includes(",");
   const hasDot   = s.includes(".");
 
-  if (hasComma && hasDot) {
+  // 🔎 Padrão BR só com milhar: "1.234" ou "12.345.678" (sem vírgula)
+  const thousandsOnlyBR = !hasComma && hasDot && /^\d{1,3}(\.\d{3})+$/.test(s);
+
+  if (thousandsOnlyBR) {
+    // "484.093" -> "484093"
+    s = s.replace(/\./g, "");
+  } else if (hasComma && hasDot) {
+    // usa o último separador como decimal
     const lastComma = s.lastIndexOf(",");
     const lastDot   = s.lastIndexOf(".");
     if (lastComma > lastDot) {
@@ -40,14 +49,15 @@ const toNumber = (v) => {
       s = s.replace(/,/g, "");
     }
   } else if (hasComma && !hasDot) {
-    // "1234,56"
+    // "1234,56" -> "1234.56"
     s = s.replace(/\./g, "").replace(",", ".");
   }
-  // só ponto ou inteiro: mantém
+  // só ponto (e não thousandsOnlyBR) ou inteiro: mantém
 
   const n = parseFloat(s);
   return Number.isNaN(n) ? 0 : (neg ? -Math.abs(n) : n);
 };
+
 
 const medianAbs = (arr) => {
   const x = arr.map(v => Math.abs(Number(v) || 0)).filter(Number.isFinite);
@@ -99,10 +109,24 @@ function classifyWithBanner(headerStack, banner) {
     if (hasPerc)                            return "medido_perc";
   }
   if (b2 === "valor_meta") {
-    if (hasMetaPct)   return "valor_meta_pct";
-    if (hasRealPct)   return "valor_real_pct";
-    if (hasValorReal) return "valor_real_valor";
-  }
+  // detecta colunas típicas da seção “Valor referente à Meta”
+  const hasRealPctAny = /(\breal\b.*%)|(%\s*.*\breal\b)/.test(h); // "Valor REAL em % em relação à meta"
+  const hasBelowMeta  = /(abaixo.*meta|gap.*meta|diferen[çc]a.*meta|abaixo.*alvo)/.test(h); // "Valor REAL abaixo da meta"
+  const hasMoney      = /(r\$|,|\.|mil|valor)/.test(h); // valores monetários, heurística extra
+
+  // “Meta %” (valor percentual fixo)
+  if (hasMetaPct) return "valor_meta_pct";
+
+  // “Valor REAL em % em relação à meta” (percentual)
+  if (hasRealPct || hasRealPctAny) return "valor_real_pct";
+
+  // “Valor REAL abaixo da meta” (R$ absoluto, gap monetário)
+  if (hasBelowMeta || hasMoney) return "valor_meta_gap_rs";
+}
+
+
+
+
   if (b2 === "contrato") {
     if (hasNFREC) return "contrato_nfrecfat";
     if (hasMED)   return "contrato_med";

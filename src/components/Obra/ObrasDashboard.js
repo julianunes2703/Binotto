@@ -2,8 +2,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useObrasData } from "../../hooks/useObrasData";
 import "./ObrasDashboard.css";
 import ObrasCharts from "./ObrasCharts";
+// no topo do ObrasDashboard.jsx
+import ObrasResumoModal from "./ObrasResumoModal";
+import ObrasKpis from "./ObrasKpis";
+import ObrasCostSplit from "./ObrasCostSplit";
 
-// ⚠️ confirme se o gid é da ABA que contém os meses (ex.: "AdmFin")
+
+
+// ⚠️ confirme se o gid é da ABA que contém os meses
 const OBRAS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTz9AkwLQwYaPebCoz8dWo_EE6ov9rKL5PclC0O4YoEefkocNBkiyIIS8Gt2lY9fA/pub?gid=72467004&single=true&output=csv";
 
@@ -37,10 +43,11 @@ export default function ObrasDashboard() {
   // Seleções
   const [obraSelecionada, setObraSelecionada] = useState("SMF"); // há 1 obra na aba atual
   const [mesSelecionado, setMesSelecionado] = useState("Todos");
+  // junto dos outros useState
+const [openResumo, setOpenResumo] = useState(false);
 
-  // Definição dos blocos (como extrair meta/real/desvio a partir das chaves do hook)
-  // fmt: "money" -> meta/real R$; desvio em %
-  //      "percent" -> meta/real em %; desvio = diferença (p.p.)
+
+  // Definição dos blocos
   const blocksInfo = useMemo(
     () => [
       {
@@ -66,11 +73,13 @@ export default function ObrasDashboard() {
       {
         key: "valor_meta",
         title: "Valor referente à Meta",
+        // gráficos continuam em %, então mantemos fmt "percent"
         fmt: "percent",
         get: (r) => ({
-          meta: r.valor_meta_pct,
-          real: r.valor_real_pct,
-          desvio: (Number(r.valor_real_pct) || 0) - (Number(r.valor_meta_pct) || 0),
+          meta: r.valor_meta_pct,          // %
+          real: r.valor_real_pct,          // %
+          desvio: (Number(r.valor_real_pct) || 0) - (Number(r.valor_meta_pct) || 0), // p.p.
+          gap: r.valor_meta_gap_rs,        // R$ (Valor REAL abaixo da meta)
         }),
       },
       {
@@ -80,7 +89,7 @@ export default function ObrasDashboard() {
         get: (r) => ({
           meta: r.contrato_nfrecfat,
           real: r.contrato_med,
-          desvio: Number(r.contrato_perc) || 0, // já vem em %
+          desvio: Number(r.contrato_perc) || 0, // %
         }),
       },
       {
@@ -90,7 +99,7 @@ export default function ObrasDashboard() {
         get: (r) => ({
           meta: r.custo_meta_rs,
           real: r.custo_real_rs,
-          desvio: Number(r.custo_perc) || 0, // já vem em %
+          desvio: Number(r.custo_perc) || 0, // %
         }),
       },
     ],
@@ -106,10 +115,13 @@ export default function ObrasDashboard() {
         Mes: String(r.mes || "").toUpperCase(),
       };
       blocksInfo.forEach((b) => {
-        const { meta, real, desvio } = b.get(r);
+        const { meta, real, desvio, gap } = b.get(r);
         base[`${b.key}__meta`] = Number(meta) || 0;
         base[`${b.key}__real`] = Number(real) || 0;
+        // mantemos desvio para gráficos (inclusive em valor_meta)
         base[`${b.key}__desvio`] = Number(desvio) || 0;
+        // adiciona GAP só para quem tiver
+        if (gap != null) base[`${b.key}__gap`] = Number(gap) || 0;
       });
       return base;
     });
@@ -140,7 +152,7 @@ export default function ObrasDashboard() {
     [months]
   );
 
-  // aplica filtros (obra é única, mas mantém compatibilidade)
+  // aplica filtros
   const filtrados = useMemo(() => {
     if (!data?.length) return [];
     return data.filter(
@@ -163,6 +175,13 @@ export default function ObrasDashboard() {
         <h1>Painel de Obras</h1>
         <p>Acompanhe metas, realizados e desvios</p>
       </header>
+
+            <div style={{ display: "flex", gap: 8, marginBottom: 8, marginLeft: 500 }}>
+        <button className="chip chip-on" onClick={() => setOpenResumo(true)}>
+          Resumo geral
+        </button>
+      </div>
+
 
       {/* Filtros */}
       <div className="filters">
@@ -190,6 +209,13 @@ export default function ObrasDashboard() {
         </div>
       </div>
 
+      {/* KPIs resumidos (usa os dados já filtrados por obra/mês) */}
+      <div style={{ marginTop: 10 }}>
+       <ObrasKpis data={filtrados} blocoKey={chartBlocoKey} />
+
+      </div>
+
+
       {/* Chips (seleção exclusiva) */}
       <div className="blocos-toolbar">
         {blocksInfo.map((b) => {
@@ -198,9 +224,7 @@ export default function ObrasDashboard() {
           return (
             <button
               key={b.key}
-              className={`chip ${on ? "chip-on" : ""} ${
-                active ? "chip-active" : ""
-              }`}
+              className={`chip ${on ? "chip-on" : ""} ${active ? "chip-active" : ""}`}
               onClick={() => handleChipClick(b.key)}
               title={b.title}
             >
@@ -229,9 +253,19 @@ export default function ObrasDashboard() {
               <th className="sticky-col"></th>
               {blocosAtivos.map((b) => (
                 <React.Fragment key={`${b.key}-subs`}>
-                  <th>Meta</th>
-                  <th>Real</th>
-                  <th>Desvio</th>
+                  {b.key === "valor_meta" ? (
+                    <>
+                      <th>Meta</th>
+                      <th>Real (%)</th>
+                      <th>Valor real abaixo da meta (R$)</th>
+                    </>
+                  ) : (
+                    <>
+                      <th>Meta</th>
+                      <th>Real</th>
+                      <th>Desvio</th>
+                    </>
+                  )}
                 </React.Fragment>
               ))}
             </tr>
@@ -241,12 +275,29 @@ export default function ObrasDashboard() {
             {filtrados.map((row, i) => (
               <tr key={i}>
                 <td className="sticky-col">{row.Mes}</td>
+
                 {blocosAtivos.map((b) => {
                   const meta = row[`${b.key}__meta`];
                   const real = row[`${b.key}__real`];
-                  const desvio = row[`${b.key}__desvio`];
 
-                  // cor: >0 positivo, <0 negativo (inverta se seu critério for outro)
+                  if (b.key === "valor_meta") {
+                    const gap = row[`${b.key}__gap`] ?? 0; // R$
+                    return (
+                      <React.Fragment key={`${i}-${b.key}`}>
+                        <td className="num" style={{ color: "#16a34a", fontWeight: 500 }}>
+                          {fmtPct(meta)}
+                        </td>
+                        <td className="num" style={{ color: "#dc2626", fontWeight: 500 }}>
+                          {fmtPct(real)}
+                        </td>
+                        <td className="num" style={{ color: "#111827", fontWeight: 500 }}>
+                          {fmtMoney(gap)}
+                        </td>
+                      </React.Fragment>
+                    );
+                  }
+
+                  const desvio = row[`${b.key}__desvio`];
                   const cls =
                     (desvio ?? 0) > 0
                       ? "positivo"
@@ -256,9 +307,22 @@ export default function ObrasDashboard() {
 
                   return (
                     <React.Fragment key={`${i}-${b.key}`}>
-                      <td className="num">{fmtValue(meta, b.fmt)}</td>
-                      <td className="num">{fmtValue(real, b.fmt)}</td>
-                      <td className={`num ${cls}`}>{fmtPct(desvio)}</td>
+                      <td className="num" style={{ color: "#16a34a", fontWeight: 500 }}>
+                        {fmtValue(meta, b.fmt)}
+                      </td>
+                      <td className="num" style={{ color: "#dc2626", fontWeight: 500 }}>
+                        {fmtValue(real, b.fmt)}
+                      </td>
+                      <td
+                        className={`num ${cls}`}
+                        style={{
+                          color:
+                            desvio > 0 ? "#16a34a" : desvio < 0 ? "#dc2626" : "#111827",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {fmtPct(desvio)}
+                      </td>
                     </React.Fragment>
                   );
                 })}
@@ -281,7 +345,24 @@ export default function ObrasDashboard() {
             }
           />
         )}
+
+        {/* Modal de Resumo Geral */}
+          <ObrasResumoModal
+              open={openResumo}
+              onClose={() => setOpenResumo(false)}
+              data={data}                 // use o "data" processado
+              blocksInfo={blocksInfo}
+            />
+
       </div>
+
+            {/* Divisão de custos por tipo (Material / Mão de Obra / Serviços) */}
+      {visiveis.includes("custo") && (
+        <div style={{ marginTop: 18 }}>
+          <ObrasCostSplit data={filtrados} />
+        </div>
+)}
+
     </div>
   );
 }

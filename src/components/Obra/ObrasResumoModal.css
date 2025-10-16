@@ -1,0 +1,246 @@
+/* === BACKDROP PADRÃO PARA QUALQUER MODAL === */
+.resumo-modal-backdrop,
+.obras-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999; /* garante que fique acima do sidebar e header */
+}
+
+/* === CONTAINER PRINCIPAL DOS MODAIS === */
+.resumo-modal,
+.obras-modal {
+  width: min(1100px, 94vw);
+  max-height: 86vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+/* === CABEÇALHO === */
+.resumo-modal-header,
+.obras-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.close-btn {
+  border: 0;
+  background: #f3f4f6;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.close-btn:hover {
+  background: #e5e7eb;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+/* === BUSCA E TABELA === */
+.tools-row {
+  margin: 12px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search {
+  width: 260px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  outline: none;
+}
+
+.table-wrap {
+  overflow: auto;
+}
+
+.resumo-obras-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+}
+
+.resumo-obras-table thead th {
+  text-align: left;
+  font-weight: 600;
+  color: #0f3a6d;
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.resumo-obras-table tbody td {
+  background: #fff;
+  padding: 10px 12px;
+  border-top: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.green {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.red {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.badge.verde {
+  background: #16a34a;
+}
+.badge.amarelo {
+  background: #f59e0b;
+}
+.badge.vermelho {
+  background: #dc2626;
+}
+
+/* === DESTAQUE CUSTO DA OBRA === */
+.resumo-feature {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 12px;
+  border: 1px solid #eef2f7;
+}
+
+.feature-title {
+  font-weight: 700;
+  color: #0f3a6d;
+  margin-bottom: 8px;
+}
+
+.feature-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.feature-block .lbl {
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.feature-block .big {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.progress-bar {
+  height: 10px;
+  background: #eef2f7;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress-bar > div {
+  height: 10px;
+}
+
+.progress-bar.verde > div {
+  background: #16a34a;
+}
+.progress-bar.amarelo > div {
+  background: #f59e0b;
+}
+.progress-bar.vermelho > div {
+  background: #dc2626;
+}
+
+/* === OUTROS BLOCOS === */
+.resumo-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 900px) {
+  .resumo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.resumo-card-mini {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  border: 1px solid #eef2f7;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+.resumo-card-title {
+  font-weight: 700;
+  color: #0f3a6d;
+  margin-bottom: 6px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.lbl {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.val {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* melhora aparência geral e contraste */
+.resumo-modal::-webkit-scrollbar {
+  width: 8px;
+}
+.resumo-modal::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 8px;
+}
+.resumo-modal::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

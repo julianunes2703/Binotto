@@ -155,3 +155,137 @@ td.positivo { color:#2a9d8f; font-weight:600; } /* real abaixo da meta */
   min-width: 120px;
   max-width: 120px;
 }
+
+.obras-charts-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+.chart-card { background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.chart-card h3 { margin: 4px 6px 10px; color: #0f3a6d; }
+
+.kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 10px 0 16px;
+}
+.kpi-card { background:#fff; border-radius:12px; padding:12px 14px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.kpi-title { font-size: 12px; color:#6b7280; }
+.kpi-value { font-size: 20px; font-weight:700; }
+.progress-wrap { height: 10px; background:#eef2f7; border-radius:999px; margin-top:6px; overflow:hidden; }
+.progress-bar { height: 10px; border-radius:999px; }
+.progress-bar.verde { background:#16a34a; }
+.progress-bar.amarelo { background:#f59e0b; }
+.progress-bar.vermelho { background:#dc2626; }
+.status-card { display:flex; align-items:center; gap:12px; }
+.status-dot { width:14px; height:14px; border-radius:999px; }
+.status-dot[data-status="verde"]{ background:#16a34a; }
+.status-dot[data-status="amarelo"]{ background:#f59e0b; }
+.status-dot[data-status="vermelho"]{ background:#dc2626; }
+
+.resumo-card { background:#fff; border-radius:12px; padding:12px 14px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.resumo-table { width:100%; border-collapse:separate; border-spacing:0 6px; }
+.resumo-table th { text-align:left; font-weight:600; color:#0f3a6d; }
+.badge { padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; color:#fff; }
+.badge.verde{ background:#16a34a; }
+.badge.amarelo{ background:#f59e0b; }
+.badge.vermelho{ background:#dc2626; }
+
+.chart-card-header { display:flex; align-items:center; justify-content:space-between; }
+.segmented { background:#eef2f7; border-radius:8px; padding:2px; display:inline-flex; gap:2px; }
+.segmented button { padding:4px 8px; border-radius:6px; border:0; background:transparent; cursor:pointer; }
+.segmented button.on { background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+/* container dos KPIs */
+.obras-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+/* card */
+.kpi-card {
+  background: #fff;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.05);
+}
+
+/* rótulo */
+.kpi-label {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+/* valores grandes */
+.kpi-value {
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.kpi-value.green { color: #16a34a; }  /* verde */
+.kpi-value.red   { color: #dc2626; }  /* vermelho */
+
+/* progress bar fininha */
+.kpi-progress {
+  height: 8px;
+  background: #eef2f7;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.kpi-progress > div {
+  height: 100%;
+  transition: width .25s ease;
+  background: #16a34a; /* default verde */
+}
+
+/* cor da barrinha pelo status */
+.kpi-progress.verde > div    { background: #16a34a; }
+.kpi-progress.amarelo > div  { background: #f59e0b; }
+.kpi-progress.vermelho > div { background: #dc2626; }
+
+/* legenda pequena sob a barra */
+.kpi-sub {
+  margin-top: 6px;
+  color: #111827;
+  font-size: 14px;
+}
+
+/* status com bolinha colorida */
+.kpi-status {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.kpi-status-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #16a34a;
+}
+
+.dot.verde    { background: #16a34a; }
+.dot.amarelo  { background: #f59e0b; }
+.dot.vermelho { background: #dc2626; }
+
+/* responsivo */
+@media (max-width: 980px) {
+  .obras-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .obras-kpis { grid-template-columns: 1fr; }
+}
