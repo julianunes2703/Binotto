@@ -6,6 +6,8 @@ import ObrasCharts from "./ObrasCharts";
 import ObrasResumoModal from "./ObrasResumoModal";
 import ObrasKpis from "./ObrasKpis";
 import ObrasCostSplit from "./ObrasCostSplit";
+import AiAnaliseModal from "./aiModal";
+
 
 
 
@@ -45,6 +47,7 @@ export default function ObrasDashboard() {
   const [mesSelecionado, setMesSelecionado] = useState("Todos");
   // junto dos outros useState
 const [openResumo, setOpenResumo] = useState(false);
+const [openAi, setOpenAi] = useState(false); 
 
 
   // Definição dos blocos
@@ -171,6 +174,13 @@ const [openResumo, setOpenResumo] = useState(false);
 
   return (
     <div className="dashboard-container">
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 8, marginLeft: 1000 }}>
+       <button className="chip chip-on" onClick={() => setOpenAi(true)}>
+          Análise IA
+        </button>
+        </div>
+
       <header className="dashboard-header">
         <h1>Painel de Obras</h1>
         <p>Acompanhe metas, realizados e desvios</p>
@@ -181,6 +191,7 @@ const [openResumo, setOpenResumo] = useState(false);
           Resumo geral
         </button>
       </div>
+    
 
 
       {/* Filtros */}
@@ -355,6 +366,16 @@ const [openResumo, setOpenResumo] = useState(false);
             />
 
       </div>
+
+      {/* Novo Modal de IA */}
+      <AiAnaliseModal
+        open={openAi}
+        onClose={() => setOpenAi(false)}
+        rowsRaw={rows}                    // envia as linhas do CSV direto
+        obraSelecionada={obraSelecionada}
+        mesSelecionado={mesSelecionado}
+        metricKey={chartBlocoKey}
+      />
 
             {/* Divisão de custos por tipo (Material / Mão de Obra / Serviços) */}
       {visiveis.includes("custo") && (
