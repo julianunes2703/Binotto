@@ -275,13 +275,20 @@ const [openAi, setOpenAi] = useState(false);
                       <th>NF/REC/FAT(material direto)</th>
                       <th>MED(medição)</th>
                     </>
-                  ) : (
+                  ) : b.key == "custo" ? (
+                        <>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </>
+                  ) :
+                  (
                     <>
                       <th>Meta</th>
                       <th>Real</th>
                       <th>Desvio</th>
                     </>
-                  )}
+                  )} 
 
                 </React.Fragment>
               ))}
