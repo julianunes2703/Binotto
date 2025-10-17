@@ -1,23 +1,18 @@
-// src/lib/api.js
+// src/lib/api.js  (CRA-friendly)
 function detectApiBase() {
-  // 1) Vite (import.meta.env.VITE_API_BASE)
-  try {
-    if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.REACT_APP_API_BASE) {
-      return import.meta.env.REACT_APP_API_BASE;
-    }
-  } catch (_) {}
+  // CRA injeta env em build time: process.env.REACT_APP_*
+  const fromEnv = (typeof process !== "undefined" && process.env && process.env.REACT_APP_API_BASE) 
+    ? process.env.REACT_APP_API_BASE 
+    : "";
 
-  // 2) CRA (process.env.REACT_APP_API_BASE)
-  if (typeof process !== "undefined" && process.env && process.env.REACT_APP_API_BASE) {
-    return process.env.REACT_APP_API_BASE;
-  }
+  if (fromEnv) return fromEnv;
 
-  // 3) Dev local fallback
-  if (typeof window !== "undefined" && window.location && window.location.hostname === "localhost") {
+  // Dev local fallback (quando rodando npm start)
+  if (typeof window !== "undefined" && window.location.hostname === "localhost") {
     return "http://localhost:3001";
   }
 
-  // 4) Produção sem variável -> mesma origem / proxy
+  // Produção sem env -> mesma origem (útil se você optar por rewrites)
   return "";
 }
 
