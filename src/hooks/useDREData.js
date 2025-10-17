@@ -3,7 +3,7 @@ import Papa from "papaparse";
 
 // passe o seu URL publicado em CSV
 const DRE_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTb5Vp1jLwcRarrpAc1VWVgwr5PJgalzgXtNn_bTrdF8pydNIEDPHEd85qNc6aWvg/pub?gid=1631772326&single=true&output=csv";
+  `https://docs.google.com/spreadsheets/d/e/2PACX-1vTb5Vp1jLwcRarrpAc1VWVgwr5PJgalzgXtNn_bTrdF8pydNIEDPHEd85qNc6aWvg/pub?gid=1631772326&single=true&output=csv&cachebust=${Date.now()}`;
 
 const PT_MONTHS = [
   "jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez","total"

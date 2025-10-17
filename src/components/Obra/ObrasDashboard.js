@@ -13,7 +13,7 @@ import AiAnaliseModal from "./aiModal";
 
 // ⚠️ confirme se o gid é da ABA que contém os meses
 const OBRAS_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTz9AkwLQwYaPebCoz8dWo_EE6ov9rKL5PclC0O4YoEefkocNBkiyIIS8Gt2lY9fA/pub?gid=72467004&single=true&output=csv";
+  `https://docs.google.com/spreadsheets/d/e/2PACX-1vTz9AkwLQwYaPebCoz8dWo_EE6ov9rKL5PclC0O4YoEefkocNBkiyIIS8Gt2lY9fA/pub?gid=72467004&single=true&output=csv&cachebust=${Date.now()}`;
 
 // reduz títulos compridos nos chips
 const abreviarTitulo = (t) =>
@@ -270,6 +270,11 @@ const [openAi, setOpenAi] = useState(false);
                       <th>Real (%)</th>
                       <th>Valor real abaixo da meta (R$)</th>
                     </>
+                  ) : b.key === "contrato" ? (
+                    <>
+                      <th>NF/REC/FAT(material direto)</th>
+                      <th>MED(medição)</th>
+                    </>
                   ) : (
                     <>
                       <th>Meta</th>
@@ -277,6 +282,7 @@ const [openAi, setOpenAi] = useState(false);
                       <th>Desvio</th>
                     </>
                   )}
+
                 </React.Fragment>
               ))}
             </tr>
