@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/analyze",        "destination": "https://binotto-back.onrender.com/analyze" },
+    { "source": "/analyze-obras",  "destination": "https://binotto-back.onrender.com/analyze-obras" },
+    { "source": "/health",         "destination": "https://binotto-back.onrender.com/health" }
+  ]
+}
