@@ -28,7 +28,7 @@
 .blocos-toolbar { display:flex; flex-wrap:wrap; gap:8px; margin: 6px 0 14px; }
 .chip {
   border:1px solid #cbd5e1; background:#fff; color:#0a58ca;
-  padding:6px 10px; border-radius:999px; font-size:.9rem; cursor:pointer;
+  padding:6px 10px; border-radius:15px; font-size:.9rem; cursor:pointer;
 }
 .chip:hover { background:#eef4ff; }
 .chip-on  { background:#0a58ca; color:#fff; border-color:#0a58ca; }
