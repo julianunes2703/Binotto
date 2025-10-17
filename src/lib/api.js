@@ -2,8 +2,8 @@
 function detectApiBase() {
   // 1) Vite (import.meta.env.VITE_API_BASE)
   try {
-    if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_BASE) {
-      return import.meta.env.VITE_API_BASE;
+    if (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.REACT_APP_API_BASE) {
+      return import.meta.env.REACT_APP_API_BASE;
     }
   } catch (_) {}
 
